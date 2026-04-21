@@ -3,7 +3,7 @@ import java.util.*;
 public class TuViSystem {
 
     // =========================================================================
-    // 1. ĐỊNH NGHĨA CÁC ENUM CƠ BẢN
+    // 1. ĐỊNH NGHĨA CÁC ENUM CƠ BẢN VÀ PHÂN LOẠI SAO
     // =========================================================================
 
     public enum GioiTinh { NAM, NU }
@@ -53,35 +53,90 @@ public class TuViSystem {
         public String getTen() { return ten; } public int getBuocNhay() { return buocNhay; }
     }
 
-    public enum Sao {
-        TU_VI("Tử Vi"), THIEN_CO("Thiên Cơ"), THAI_DUONG("Thái Dương"), VU_KHUC("Vũ Khúc"), THIEN_DONG("Thiên Đồng"), LIEM_TRINH("Liêm Trinh"),
-        THIEN_PHU("Thiên Phủ"), THAI_AM("Thái Âm"), THAM_LANG("Tham Lang"), CU_MON("Cự Môn"), THIEN_TUONG("Thiên Tướng"), THIEN_LUONG("Thiên Lương"), THAT_SAT("Thất Sát"), PHA_QUAN("Phá Quân"),
-        TA_PHU("Tả Phù"), HUU_BAT("Hữu Bật"), THIEN_HINH("Thiên Hình"), THIEN_GIAI("Thiên Giải"), DIA_GIAI("Địa Giải"), THIEN_RIEU_Y("Thiên Riêu - Y"),
-        VAN_KHUC("Văn Khúc"), VAN_XUONG("Văn Xương"), DIA_KIEP("Địa Kiếp"), DIA_KHONG("Địa Không"),
-        THAI_PHU("Thai Phụ"), PHONG_CAO("Phong Cáo"), HOA_TINH("Hỏa Tinh"), LINH_TINH("Linh Tinh"),
-        TAM_THAI("Tam Thai"), BAT_TOA("Bát Tọa"), AN_QUANG("Ân Quang"), THIEN_QUY("Thiên Quý"),
-        LOC_TON("Lộc Tồn"), BAC_SI("Bác Sĩ"), LUC_SI("Lực Sĩ"), THANH_LONG("Thanh Long"), TIEU_HAO("Tiểu Hao"), TUONG_QUAN("Tướng Quân"),
-        TAU_THU("Tấu Thư"), PHI_LIEM("Phi Liêm"), HI_THAN("Hỷ Thần"), BENH_PHU("Bệnh Phù"), DAI_HAO("Đại Hao"), PHUC_BINH("Phục Binh"), QUAN_PHU("Quan Phủ"),
-        LUU_NIEN_VAN_TINH("Lưu Niên Văn Tinh"), DUONG_PHU("Đường Phù"), QUOC_AN("Quốc Ấn"),
-        LUU_HA("Lưu Hà"), THIEN_TRU("Thiên Trù"), THIEN_QUAN("Thiên Quan"), THIEN_PHUC("Thiên Phúc"), THIEN_KHOI("Thiên Khôi"), THIEN_VIET("Thiên Việt"),
-        THAI_TUE("Thái Tuế"), THIEU_DUONG("Thiếu Dương"), TANG_MON("Tang Môn"), THIEU_AM("Thiếu Âm"),
-        QUAN_PHU_T("Quan Phù"), TU_PHU("Tử Phù"), TUE_PHA("Tuế Phá"), LONG_DUC("Long Đức"),
-        BACH_HO("Bạch Hổ"), PHUC_DUC("Phúc Đức"), DIEU_KHACH("Điếu Khách"), TRUC_PHU("Trực Phù"),
-        THIEN_MA("Thiên Mã"), DAO_HOA("Đào Hoa"), HOA_CAI("Hoa Cái"), KIEP_SAT("Kiếp Sát"),
-        PHA_TOAI("Phá Toái"), CO_THAN("Cô Thần"), QUA_TU("Quả Tú"), THIEN_KHOC("Thiên Khốc"),
-        THIEN_HU("Thiên Hư"), THIEN_HY("Thiên Hỷ"), HONG_LOAN("Hồng Loan"),
-        LONG_TRI("Long Trì"), PHUONG_CAC("Phượng Các"), GIAI_THAN("Giải Thần"),
-        TRUONG_SINH("Trường Sinh"), MOC_DUC("Mộc Dục"), QUAN_DOI("Quan Đới"), LAM_QUAN("Lâm Quan"),
-        DE_VUONG("Đế Vượng"), SUY("Suy"), BENH("Bệnh"), TU("Tử"), MO("Mộ"), TUYET("Tuyệt"), THAI("Thai"), DUONG("Dưỡng"),
-        TUAN_KHONG("Tuần Không"), TRIET_LO("Triệt Lộ"),
-        HOA_LOC("Hóa Lộc"), HOA_QUYEN("Hóa Quyền"), HOA_KHOA("Hóa Khoa"), HOA_KY("Hóa Kỵ"),
+    // Họ Sao - Dùng để gom nhóm Key JSON cho Front-end
+    public enum LoaiSao {
+        CHINH_TINH("chinhTinh"),
+        TU_HOA("tuHoa"),
+        HUNG_SAT_TINH("satTinh"),
+        VONG_THAI_TUE("thaiTue"),
+        VONG_TRUONG_SINH("truongSinh"),
+        VONG_LOC_TON("locTon"),
+        TUAN_TRIET("tuanTriet"),
+        PHU_TINH("phuTinh");
 
-        // BƯỚC 13: CÁC SAO CÒN LẠI
-        THIEN_LA("Thiên La"), DIA_VONG("Địa Võng"), THIEN_THUONG("Thiên Thương"),
-        THIEN_SU("Thiên Sứ"), THIEN_TAI("Thiên Tài"), THIEN_THO("Thiên Thọ");
-
-        private final String ten; Sao(String ten) { this.ten = ten; } public String getTen() { return ten; }
+        private final String key;
+        LoaiSao(String key) { this.key = key; }
+        public String getKey() { return key; }
     }
+
+    public enum Sao {
+        // Chính Tinh
+        TU_VI("Tử Vi", LoaiSao.CHINH_TINH), THIEN_CO("Thiên Cơ", LoaiSao.CHINH_TINH), THAI_DUONG("Thái Dương", LoaiSao.CHINH_TINH),
+        VU_KHUC("Vũ Khúc", LoaiSao.CHINH_TINH), THIEN_DONG("Thiên Đồng", LoaiSao.CHINH_TINH), LIEM_TRINH("Liêm Trinh", LoaiSao.CHINH_TINH),
+        THIEN_PHU("Thiên Phủ", LoaiSao.CHINH_TINH), THAI_AM("Thái Âm", LoaiSao.CHINH_TINH), THAM_LANG("Tham Lang", LoaiSao.CHINH_TINH),
+        CU_MON("Cự Môn", LoaiSao.CHINH_TINH), THIEN_TUONG("Thiên Tướng", LoaiSao.CHINH_TINH), THIEN_LUONG("Thiên Lương", LoaiSao.CHINH_TINH),
+        THAT_SAT("Thất Sát", LoaiSao.CHINH_TINH), PHA_QUAN("Phá Quân", LoaiSao.CHINH_TINH),
+
+        // Hung/Sát Tinh
+        DIA_KIEP("Địa Kiếp", LoaiSao.HUNG_SAT_TINH), DIA_KHONG("Địa Không", LoaiSao.HUNG_SAT_TINH),
+        HOA_TINH("Hỏa Tinh", LoaiSao.HUNG_SAT_TINH), LINH_TINH("Linh Tinh", LoaiSao.HUNG_SAT_TINH),
+        KIEP_SAT("Kiếp Sát", LoaiSao.HUNG_SAT_TINH), PHA_TOAI("Phá Toái", LoaiSao.HUNG_SAT_TINH),
+
+        // Vòng Lộc Tồn / Bác Sĩ
+        LOC_TON("Lộc Tồn", LoaiSao.VONG_LOC_TON), BAC_SI("Bác Sĩ", LoaiSao.VONG_LOC_TON), LUC_SI("Lực Sĩ", LoaiSao.VONG_LOC_TON),
+        THANH_LONG("Thanh Long", LoaiSao.VONG_LOC_TON), TIEU_HAO("Tiểu Hao", LoaiSao.VONG_LOC_TON), TUONG_QUAN("Tướng Quân", LoaiSao.VONG_LOC_TON),
+        TAU_THU("Tấu Thư", LoaiSao.VONG_LOC_TON), PHI_LIEM("Phi Liêm", LoaiSao.VONG_LOC_TON), HI_THAN("Hỷ Thần", LoaiSao.VONG_LOC_TON),
+        BENH_PHU("Bệnh Phù", LoaiSao.VONG_LOC_TON), DAI_HAO("Đại Hao", LoaiSao.VONG_LOC_TON), PHUC_BINH("Phục Binh", LoaiSao.VONG_LOC_TON),
+        QUAN_PHU("Quan Phủ", LoaiSao.VONG_LOC_TON),
+
+        // Vòng Thái Tuế
+        THAI_TUE("Thái Tuế", LoaiSao.VONG_THAI_TUE), THIEU_DUONG("Thiếu Dương", LoaiSao.VONG_THAI_TUE), TANG_MON("Tang Môn", LoaiSao.VONG_THAI_TUE),
+        THIEU_AM("Thiếu Âm", LoaiSao.VONG_THAI_TUE), QUAN_PHU_T("Quan Phù", LoaiSao.VONG_THAI_TUE), TU_PHU("Tử Phù", LoaiSao.VONG_THAI_TUE),
+        TUE_PHA("Tuế Phá", LoaiSao.VONG_THAI_TUE), LONG_DUC("Long Đức", LoaiSao.VONG_THAI_TUE), BACH_HO("Bạch Hổ", LoaiSao.VONG_THAI_TUE),
+        PHUC_DUC("Phúc Đức", LoaiSao.VONG_THAI_TUE), DIEU_KHACH("Điếu Khách", LoaiSao.VONG_THAI_TUE), TRUC_PHU("Trực Phù", LoaiSao.VONG_THAI_TUE),
+
+        // Vòng Trường Sinh
+        TRUONG_SINH("Trường Sinh", LoaiSao.VONG_TRUONG_SINH), MOC_DUC("Mộc Dục", LoaiSao.VONG_TRUONG_SINH), QUAN_DOI("Quan Đới", LoaiSao.VONG_TRUONG_SINH),
+        LAM_QUAN("Lâm Quan", LoaiSao.VONG_TRUONG_SINH), DE_VUONG("Đế Vượng", LoaiSao.VONG_TRUONG_SINH), SUY("Suy", LoaiSao.VONG_TRUONG_SINH),
+        BENH("Bệnh", LoaiSao.VONG_TRUONG_SINH), TU("Tử", LoaiSao.VONG_TRUONG_SINH), MO("Mộ", LoaiSao.VONG_TRUONG_SINH),
+        TUYET("Tuyệt", LoaiSao.VONG_TRUONG_SINH), THAI("Thai", LoaiSao.VONG_TRUONG_SINH), DUONG("Dưỡng", LoaiSao.VONG_TRUONG_SINH),
+
+        // Tứ Hóa
+        HOA_LOC("Hóa Lộc", LoaiSao.TU_HOA), HOA_QUYEN("Hóa Quyền", LoaiSao.TU_HOA),
+        HOA_KHOA("Hóa Khoa", LoaiSao.TU_HOA), HOA_KY("Hóa Kỵ", LoaiSao.TU_HOA),
+
+        // Tuần Triệt
+        TUAN_KHONG("Tuần Không", LoaiSao.TUAN_TRIET), TRIET_LO("Triệt Lộ", LoaiSao.TUAN_TRIET),
+
+        // Phụ tinh còn lại
+        TA_PHU("Tả Phù", LoaiSao.PHU_TINH), HUU_BAT("Hữu Bật", LoaiSao.PHU_TINH), THIEN_HINH("Thiên Hình", LoaiSao.PHU_TINH),
+        THIEN_GIAI("Thiên Giải", LoaiSao.PHU_TINH), DIA_GIAI("Địa Giải", LoaiSao.PHU_TINH), THIEN_RIEU_Y("Thiên Riêu - Y", LoaiSao.PHU_TINH),
+        VAN_KHUC("Văn Khúc", LoaiSao.PHU_TINH), VAN_XUONG("Văn Xương", LoaiSao.PHU_TINH), THAI_PHU("Thai Phụ", LoaiSao.PHU_TINH),
+        PHONG_CAO("Phong Cáo", LoaiSao.PHU_TINH), TAM_THAI("Tam Thai", LoaiSao.PHU_TINH), BAT_TOA("Bát Tọa", LoaiSao.PHU_TINH),
+        AN_QUANG("Ân Quang", LoaiSao.PHU_TINH), THIEN_QUY("Thiên Quý", LoaiSao.PHU_TINH), LUU_NIEN_VAN_TINH("Lưu Niên Văn Tinh", LoaiSao.PHU_TINH),
+        DUONG_PHU("Đường Phù", LoaiSao.PHU_TINH), QUOC_AN("Quốc Ấn", LoaiSao.PHU_TINH), LUU_HA("Lưu Hà", LoaiSao.PHU_TINH),
+        THIEN_TRU("Thiên Trù", LoaiSao.PHU_TINH), THIEN_QUAN("Thiên Quan", LoaiSao.PHU_TINH), THIEN_PHUC("Thiên Phúc", LoaiSao.PHU_TINH),
+        THIEN_KHOI("Thiên Khôi", LoaiSao.PHU_TINH), THIEN_VIET("Thiên Việt", LoaiSao.PHU_TINH), THIEN_MA("Thiên Mã", LoaiSao.PHU_TINH),
+        DAO_HOA("Đào Hoa", LoaiSao.PHU_TINH), HOA_CAI("Hoa Cái", LoaiSao.PHU_TINH), CO_THAN("Cô Thần", LoaiSao.PHU_TINH),
+        QUA_TU("Quả Tú", LoaiSao.PHU_TINH), THIEN_KHOC("Thiên Khốc", LoaiSao.PHU_TINH), THIEN_HU("Thiên Hư", LoaiSao.PHU_TINH),
+        THIEN_HY("Thiên Hỷ", LoaiSao.PHU_TINH), HONG_LOAN("Hồng Loan", LoaiSao.PHU_TINH), LONG_TRI("Long Trì", LoaiSao.PHU_TINH),
+        PHUONG_CAC("Phượng Các", LoaiSao.PHU_TINH), GIAI_THAN("Giải Thần", LoaiSao.PHU_TINH), THIEN_LA("Thiên La", LoaiSao.PHU_TINH),
+        DIA_VONG("Địa Võng", LoaiSao.PHU_TINH), THIEN_THUONG("Thiên Thương", LoaiSao.PHU_TINH), THIEN_SU("Thiên Sứ", LoaiSao.PHU_TINH),
+        THIEN_TAI("Thiên Tài", LoaiSao.PHU_TINH), THIEN_THO("Thiên Thọ", LoaiSao.PHU_TINH);
+
+        private final String ten;
+        private final LoaiSao loaiSao;
+
+        Sao(String ten, LoaiSao loaiSao) { this.ten = ten; this.loaiSao = loaiSao; }
+        public String getTen() { return ten; }
+        public LoaiSao getLoaiSao() { return loaiSao; }
+    }
+
+    public enum MenhChu { THAM_LANG("Tham Lang"), CU_MON("Cự Môn"), LOC_TON("Lộc Tồn"), VAN_KHUC("Văn Khúc"), LIEM_TRINH("Liêm Trinh"), VU_KHUC("Vũ Khúc"), PHA_QUAN("Phá Quân");
+        private final String ten; MenhChu(String ten) { this.ten = ten; } public String getTen() { return ten; } }
+
+    public enum ThanChu { HOA_TINH("Hỏa Tinh"), THIEN_TUONG("Thiên Tướng"), THIEN_LUONG("Thiên Lương"), THIEN_DONG("Thiên Đồng"), VAN_XUONG("Văn Xương"), THIEN_CO("Thiên Cơ");
+        private final String ten; ThanChu(String ten) { this.ten = ten; } public String getTen() { return ten; } }
 
     // =========================================================================
     // 2. CẤU TRÚC DỮ LIỆU LÁ SỐ
@@ -92,7 +147,6 @@ public class TuViSystem {
         public List<CungChuc> cacCungChuc = new ArrayList<>();
         public List<Sao> cacSao = new ArrayList<>();
         public boolean laCungThan = false;
-
         public CungDiaBan(DiaChi diaChi) { this.diaChi = diaChi; }
     }
 
@@ -100,6 +154,8 @@ public class TuViSystem {
         public Map<DiaChi, CungDiaBan> diaBan = new LinkedHashMap<>();
         public Cuc cuc;
         public boolean amDuongThuanLy;
+        public MenhChu menhChu;
+        public ThanChu thanChu;
 
         public LaSo() {
             for (DiaChi dc : DiaChi.values()) { diaBan.put(dc, new CungDiaBan(dc)); }
@@ -163,7 +219,7 @@ public class TuViSystem {
 
         for (CungChuc cc : CungChuc.values()) { laSo.diaBan.get(DiaChi.fromIndex(viTriMenh + cc.getBuocNhay())).cacCungChuc.add(cc); }
 
-        int viTriThan = (viTriX + buocGio) % 12; // Lưu biến viTriThan để dùng cho Bước 13
+        int viTriThan = (viTriX + buocGio) % 12;
         laSo.diaBan.get(DiaChi.fromIndex(viTriThan)).laCungThan = true;
 
         laSo.cuc = Cuc.fromMapValue(MATRIX_CUC[cungMenh.getIndex()][canIndex]);
@@ -288,23 +344,14 @@ public class TuViSystem {
             laSo.themSao(vongTruongSinh[i], DiaChi.fromIndex(khoiTruongSinh + (laSo.amDuongThuanLy ? i : -i)));
         }
 
-        // ==========================================
-        // BƯỚC 10: AN SAO TRIỆT
-        // ==========================================
         int idxTriet1 = (8 - 2 * (canIndex % 5) + 12) % 12;
         laSo.themSao(Sao.TRIET_LO, DiaChi.fromIndex(idxTriet1));
         laSo.themSao(Sao.TRIET_LO, DiaChi.fromIndex(idxTriet1 + 1));
 
-        // ==========================================
-        // BƯỚC 11: AN SAO TUẦN
-        // ==========================================
         int baseTuan = (chiIndex - canIndex + 12) % 12;
         laSo.themSao(Sao.TUAN_KHONG, DiaChi.fromIndex(baseTuan + 10));
         laSo.themSao(Sao.TUAN_KHONG, DiaChi.fromIndex(baseTuan + 11));
 
-        // ==========================================
-        // BƯỚC 12: AN SAO TỨ HÓA (Lộc - Quyền - Khoa - Kỵ)
-        // ==========================================
         Sao[] listSaoGocTuHoa = MAP_TU_HOA[canIndex];
         Sao[] listSaoTuHoa = {Sao.HOA_LOC, Sao.HOA_QUYEN, Sao.HOA_KHOA, Sao.HOA_KY};
 
@@ -318,25 +365,18 @@ public class TuViSystem {
             }
         }
 
-        // ==========================================
-        // BƯỚC 13: CÁC SAO CÒN LẠI (Thiên La, Địa Võng, Thương, Sứ, Tài, Thọ)
-        // ==========================================
         laSo.themSao(Sao.THIEN_LA, DiaChi.THIN);
         laSo.themSao(Sao.DIA_VONG, DiaChi.TUAT);
 
-        // Thiên Thương ở cung Tật Ách
         int idxTatAch = (viTriMenh + CungChuc.TAT_ACH.getBuocNhay()) % 12;
         laSo.themSao(Sao.THIEN_THUONG, DiaChi.fromIndex(idxTatAch));
 
-        // Thiên Sứ ở cung Nô Bộc
         int idxNoBoc = (viTriMenh + CungChuc.NO_BOC.getBuocNhay()) % 12;
         laSo.themSao(Sao.THIEN_SU, DiaChi.fromIndex(idxNoBoc));
 
-        // Thiên Tài: Từ cung Mệnh đếm thuận đến năm sinh
         int idxThienTai = (viTriMenh + chiIndex) % 12;
         laSo.themSao(Sao.THIEN_TAI, DiaChi.fromIndex(idxThienTai));
 
-        // Thiên Thọ: Từ cung Thân đếm thuận đến năm sinh
         int idxThienTho = (viTriThan + chiIndex) % 12;
         laSo.themSao(Sao.THIEN_THO, DiaChi.fromIndex(idxThienTho));
 
@@ -344,8 +384,69 @@ public class TuViSystem {
     }
 
     // =========================================================================
-    // 4. TEST LẤY OUTPUT
+    // 4. MODULE BUILD JSON OUTPUT DÀNH CHO API
     // =========================================================================
+
+    public static String buildJson(LaSo laSo, ThienCan canNamSinh, DiaChi chiNamSinh, GioiTinh gioiTinh) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n");
+
+        // 1. Thông tin bản mệnh
+        sb.append("  \"banMenh\": {\n");
+        sb.append("    \"namSinh\": \"").append(canNamSinh.getTen()).append(" ").append(chiNamSinh.getTen()).append("\",\n");
+        sb.append("    \"gioiTinh\": \"").append(gioiTinh.name()).append("\",\n");
+        sb.append("    \"amDuong\": \"").append(laSo.amDuongThuanLy ? "Thuận Lý" : "Nghịch Lý").append("\",\n");
+        sb.append("    \"cuc\": \"").append(laSo.cuc.getTen()).append("\"\n");
+        sb.append("  },\n");
+
+        // 2. Dữ liệu 12 cung (Địa bàn)
+        sb.append("  \"diaBan\": [\n");
+        int count = 0;
+        for (DiaChi dc : DiaChi.values()) {
+            CungDiaBan cung = laSo.diaBan.get(dc);
+            sb.append("    {\n");
+            sb.append("      \"cungId\": ").append(dc.getIndex()).append(",\n");
+            sb.append("      \"tenCung\": \"").append(dc.getTen()).append("\",\n");
+
+            // Xuất mảng Cung Chức
+            sb.append("      \"cacCungChuc\": [");
+            List<String> ccStrs = new ArrayList<>();
+            for (CungChuc cc : cung.cacCungChuc) ccStrs.add("\"" + cc.getTen() + "\"");
+            if (cung.laCungThan) ccStrs.add("\"Thân\"");
+            sb.append(String.join(", ", ccStrs)).append("],\n");
+
+            // Gom nhóm các sao theo Loại (Họ Sao)
+            sb.append("      \"sao\": {\n");
+            Map<LoaiSao, List<Sao>> groupedSao = new LinkedHashMap<>();
+            for (LoaiSao loai : LoaiSao.values()) {
+                groupedSao.put(loai, new ArrayList<>());
+            }
+            for (Sao s : cung.cacSao) {
+                groupedSao.get(s.getLoaiSao()).add(s);
+            }
+
+            List<String> saoGroupStrs = new ArrayList<>();
+            for (LoaiSao loai : LoaiSao.values()) {
+                List<Sao> list = groupedSao.get(loai);
+                if (!list.isEmpty()) {
+                    List<String> saoNames = new ArrayList<>();
+                    for (Sao s : list) saoNames.add("\"" + s.getTen() + "\"");
+                    saoGroupStrs.add("        \"" + loai.getKey() + "\": [" + String.join(", ", saoNames) + "]");
+                }
+            }
+            sb.append(String.join(",\n", saoGroupStrs)).append("\n");
+
+            sb.append("      }\n");
+            sb.append("    }");
+            count++;
+            if (count < 12) sb.append(",");
+            sb.append("\n");
+        }
+        sb.append("  ]\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
         ThienCan canNamSinh = ThienCan.AT;
         DiaChi chiNamSinh = DiaChi.HOI; // Đã thêm tuổi vào đây
@@ -355,25 +456,11 @@ public class TuViSystem {
         int ngaySinh = 29;
         DiaChi gioSinh = DiaChi.DAU;
 
+        // Chạy lập lá số
         LaSo laSo = lapLaSo(canNamSinh, chiNamSinh, gioiTinh, thangSinh, ngaySinh, gioSinh);
 
-        System.out.println("=== THÔNG TIN BẢN MỆNH ===");
-        System.out.println("Năm: " + canNamSinh.getTen() + " " + chiNamSinh.getTen() + " | Giới tính: " + gioiTinh.name());
-        System.out.println("Âm Dương: " + (laSo.amDuongThuanLy ? "Thuận Lý" : "Nghịch Lý") + " | Cục: " + laSo.cuc.getTen() + "\n");
-
-        System.out.println("=== BẢN ĐỒ 12 CUNG LÁ SỐ ===");
-        for (DiaChi dc : DiaChi.values()) {
-            CungDiaBan cung = laSo.diaBan.get(dc);
-
-            List<String> tenCungChuc = new ArrayList<>();
-            for (CungChuc cc : cung.cacCungChuc) tenCungChuc.add(cc.getTen());
-            if (cung.laCungThan) tenCungChuc.add("Thân");
-
-            List<String> tenSao = new ArrayList<>();
-            for (Sao s : cung.cacSao) tenSao.add(s.getTen());
-
-            System.out.printf("[ Cung %-4s ] - Chức: %-25s \n", dc.getTen(), String.join(", ", tenCungChuc));
-            System.out.printf("              Sao: %s\n\n", String.join(", ", tenSao));
-        }
+        // Xuất ra API JSON
+        String jsonResponse = buildJson(laSo, canNamSinh, chiNamSinh, gioiTinh);
+        System.out.println(jsonResponse);
     }
 }
